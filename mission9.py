@@ -69,8 +69,12 @@ class Facture :
 
 #------------------------------------------ Partie Livraison ------------------------------------------
 
-    def nombre(self, pce):
-        return sum(article.nombre() for article in self.articles() if article.piece() == pce)
+    def nombre(self, pce) :
+        total = 0
+        for article in self.articles():
+            if article.piece() == pce:
+                total += article.nombre()
+        return total
 
     def description_livraison(self):
         return 'Livraison - Facture No {} : {}'.format(self.num_facture, self.__description)
@@ -81,8 +85,9 @@ class Facture :
                + "| {0:<40} | {1:>10} | {2:>10} | {3:>10} |\n".format("Description", "poids/pce", "nombre", "poids") \
                + self.barre_str()
 
-    def livraison_str(self, art):
-        return "| {0:40} | {1:10.2f} | {2:10.2f} | {3:10.2f} |\n".format(art.description(), art.poids(), art.nombre(), art.poidstotpce())
+    def livraison_str(self, art): #art est une instance de Article Pièce
+        return "| {0:40} | {1:10.2f} | {2:10} | {3:10.2f} |\n".format(art.description(), art.poids(), art.nombre(), art.poidstotpce())
+        #Ajouter des kg décale tout
 
     def print_livraison(self):
         s = self.entete_livraison_str()
@@ -96,9 +101,13 @@ class Facture :
         return s
 
     def totaux_livraison_str(self, nombre, poids):
+        fragile = 0
+        for art in self.__articles:
+            if art.fragile()==True:
+                fragile += 1
         return self.barre_str() \
-               + "| {0:40} | {1:10} | {2:10.2f} | {3:10.2f} |\n".format(f"{nombre} articles", "", nombre, poids) \
-               + self.barre_str()
+               + "| {0:40} | {1:10} | {2:10} | {3:10.2f} |\n".format(f"{nombre} articles", "", nombre, poids) \
+               + self.barre_str() + '\n' + ('(!) *** livraison fragile ***' if fragile>0 else '') #Méthode pour faire des conditions sans avoir trop de lignes
 
 class ArticleReparation(Article):
 
@@ -151,7 +160,10 @@ class ArticlePiece(Piece):
         return self.__piece
 
     def description(self):
-        fr = ' (!)' if self.fragile() else ''
+        if self.fragile():
+            fr = ' (!)'
+        else : 
+            fr = ''
         return '{} * {} @ {}{}'.format(self.nombre(), super().description(), super().prix(), fr)
 
     def prix(self):
@@ -160,11 +172,11 @@ class ArticlePiece(Piece):
     def taux_tva(self):
         return 0.06 if self.tva_reduit() else 0.21
 
-"""
-souris = ArticlePiece(9, 'souris', 'souris bluetooth', 9.99, 10, False, True) #nombre, piece, description, prix, poids, fragile, tva_red
+
+"""souris = ArticlePiece(9, 'souris', 'souris bluetooth', 9.99, 10, False, True) #nombre, piece, description, prix, poids, fragile, tva_red
 clavier = ArticlePiece(1, 'clavier', 'clavier bluetooth', 19.99, True, True, True)
 
-ordinateur = ArticlePiece(1, 'ordinateur', 'rgb 4090rtx', 999.99, 1, True, False)
+ordinateur = ArticlePiece(1, 'ordinateur', 'rtx 4090', 999.99, 1, True, False)
 vis = ArticlePiece(100, 'vis', 'vis à bois', 0.01, 0.01, False, True)
 
 charette2 = [ordinateur, vis]
@@ -181,9 +193,8 @@ Facture1 = Facture('PC Store - 22 novembre', charette1)
 
 Facture2 = Facture('PC Store - 22 novembre', charette2)
 
-print(Facture3)
-print(Facture2.print_livraison())
 print(Facture1)
-print(Facture2)"""
-
+print(Facture3)
+print(Facture2)
+print(Facture2.print_livraison())"""
 #Des exemples si tu le souhaites
