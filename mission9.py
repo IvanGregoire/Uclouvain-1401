@@ -1,4 +1,4 @@
-class Article : #Mettre une fonction spéciale qui fait que si 2 objet sont égaux, ils s'additionnent
+class Article : 
 
     def __init__(self,d,p):
         self.__description = d
