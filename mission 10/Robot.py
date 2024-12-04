@@ -19,19 +19,19 @@ class Robot:
 
     def move_forward(self, distance):
         """Avance d'une certaine distance (méthode à implémenter dans les sous-classes)."""
-        pass
+        self.history().append(('forward', distance))
 
     def move_backward(self, distance):
         """Recule d'une certaine distance (méthode à implémenter dans les sous-classes)."""
-        pass
+        self.history().append(('backward', distance))
 
     def turn_left(self):
         """Tourne à gauche (méthode à implémenter dans les sous-classes)."""
-        pass
+        self.history().append(('left', 90))
 
     def turn_right(self):
         """Tourne à droite (méthode à implémenter dans les sous-classes)."""
-        pass
+        self.history().append(('right', 90))
 
     def position(self):
         """Retourne la position du robot (méthode à implémenter dans les sous-classes)."""

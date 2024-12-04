@@ -14,20 +14,20 @@ class TurtleBot(Robot):
         return self.__t
 
     def move_forward(self, distance):
+        super().move_forward(distance)
         self.bot().forward(distance)
-        self.history().append(('forward', distance))
 
     def move_backward(self, distance):
+        super().move_backward(distance)
         self.bot().backward(distance)
-        self.history().append(('backward', distance))
 
     def turn_left(self):
+        super().turn_left()
         self.bot().left(90)
-        self.history().append(('left', 90))
 
     def turn_right(self):
+        super().turn_right()
         self.bot().right(90)
-        self.history().append(('right', 90))
 
     def position(self):
         return self.bot().pos()
@@ -47,7 +47,7 @@ class TurtleBot(Robot):
 if __name__ == '__main__':
 
     
-    hagrid = TurtleBot("Hagrid sur sa moto magique")
+    """hagrid = TurtleBot("Hagrid sur sa moto magique")
 
     print(hagrid)
 
@@ -84,5 +84,5 @@ if __name__ == '__main__':
 
     print(hagrid.history())
 
-    hagrid.wait()
+    hagrid.wait()"""
 

@@ -77,13 +77,13 @@ class XYRobot(Robot) :
         """ fait avancer le robot de distances pixels
             et trace une ligne lors de ce mouvement """
         self.__move(distance,1)
-        self.history().append(('forward', distance))
+        super().move_forward(distance)
 
     def move_backward(self,distance) :
         """ fait reculer le robot de distances pixels
             et trace une ligne lors de ce mouvement """
         self.__move(distance,-1)
-        self.history().append(('backward', distance))
+        super().move_backward(distance)
 
     def __turn(self,direction) :
         """ méthode auxiliaire pour les méthodes turn_right() et turn_left()
@@ -99,14 +99,14 @@ class XYRobot(Robot) :
             (dans le sens des aiguilles d'une montre)
         """
         self.__turn(1)
-        self.history().append(('right', 90))
+        super().turn_right()
 
     def turn_left(self) :
         """ fait tourner le robot de 90 degrés vers la gauche
             (dans le sens contraire des aiguilles d'une montre)
         """
         self.__turn(-1)
-        self.history().append(('left', 90))
+        super().turn_left()
 
     def wait(self):
         self.__win.getMouse() 
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     # create robot called R2-D2 at position (100,100) and facing East,
     # to be more or less in the center of the window
     
-    r2d2 = XYRobot("R2-D2",100,100)
+    """r2d2 = XYRobot("R2-D2",100,100)
 
     print(r2d2)
     #R2-D2@(100, 100) angle: 0.0
@@ -158,5 +158,6 @@ if __name__ == '__main__':
     print(r2d2.history())
 
     r2d2.unplay()
-    r2d2.wait()
+    print(r2d2.history())
+    r2d2.wait()"""
     
